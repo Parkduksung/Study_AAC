@@ -37,7 +37,8 @@ class PagingActivity : AppCompatActivity(), PagingContract.View {
             this.adapter = pagingAdapter
         }
 
-        viewModel.getPaging().observe(this@PagingActivity, Observer(pagingAdapter::submitList))
+        viewModel.getNewsFeed().observe(this@PagingActivity , Observer(pagingAdapter::submitList))
+
     }
 
     override fun showData() {

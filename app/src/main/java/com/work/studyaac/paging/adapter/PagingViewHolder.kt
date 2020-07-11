@@ -8,17 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.work.studyaac.R
-import com.work.studyaac.network.model.paging.Item
 
 class PagingViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
     private val name: TextView = view.findViewById(R.id.textViewName)
     private val image: ImageView = view.findViewById(R.id.imageView)
 
-    fun bind(item: Item) {
-        name.text = item.owner.displayName
+    fun bind(item: PagingAdapter.FeedItem) {
+        name.text = item.title
         Glide.with(view)
-            .load(item.owner.profileImage)
+            .load(item.image)
             .into(image)
     }
 

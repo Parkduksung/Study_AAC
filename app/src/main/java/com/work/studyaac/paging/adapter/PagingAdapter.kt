@@ -4,31 +4,38 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.work.studyaac.network.model.paging.Item
 
 
-class PagingAdapter : PagedListAdapter<Item, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class PagingAdapter : PagedListAdapter<PagingAdapter.FeedItem, RecyclerView.ViewHolder>(FeedItem.DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PagingViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = getItem(position)
-        if (item != null) {
-            (holder as PagingViewHolder).bind(item)
-        }
+        val item = getItem(position) ?: return
+        (holder as PagingViewHolder).bind(item)
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Item>() {
-            override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean =
-                oldItem.questionId == newItem.questionId
+    data class FeedItem(
+        val id: String,
+        val title: String,
+        val description: String,
+        val image: String
+    ) {
 
-            override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean =
-                oldItem == newItem
+        companion object {
+            val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FeedItem?>() {
+                override fun areItemsTheSame(old: FeedItem, new: FeedItem): Boolean {
+                    return old.id === new.id
+                }
 
+                override fun areContentsTheSame(old: FeedItem, new: FeedItem): Boolean {
+                    return old.id == new.id
+                }
+            }
         }
+
     }
 
 }
