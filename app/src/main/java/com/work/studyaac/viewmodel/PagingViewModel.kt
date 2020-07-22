@@ -15,17 +15,15 @@ import java.util.concurrent.Executors
 class PagingViewModel : ViewModel() {
 
 
-    private val executor: Executor = Executors.newFixedThreadPool(5)
+    private val executor: Executor = Executors.newFixedThreadPool(10)
     private var newsFeedObservable: LiveData<PagedList<PagingAdapter.FeedItem>>
 
     init {
-
         val feedDataFactory = FeedDataSourceFactory()
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(20)
             .build()
-
 
         newsFeedObservable = LivePagedListBuilder(feedDataFactory, pagedListConfig)
             .setFetchExecutor(executor)
