@@ -6,12 +6,8 @@
     <data>
 
         <variable
-            name="name"
-            type="String" />
-
-        <variable
-            name="lastName"
-            type="String" />
+            name="VM"
+            type="com.work.studyaac.viewmodel.DataBindingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +21,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="128dp"
-            android:text="@{name}"
+            android:text="@{VM.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="128dp"
-            android:text="@{lastName}"
+            android:text="@{VM.lastName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
