@@ -20,10 +20,8 @@ class DataBindingActivity : AppCompatActivity() {
 
     private val viewModel by lazy { ViewModelProvider(this).get(DataBindingViewModel::class.java) }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         // Utility class to create {@link ViewDataBinding} from layouts.
         // DataBindingUtil 이란 클래스는 ViewDataBinding 을 layouts 으로부터 생성하는데 필요한거고 setContentView 를 통해 어떤 Activity(NOTNULL) 에 어떤 Layout 을 연결하여
