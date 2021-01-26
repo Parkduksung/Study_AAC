@@ -22,6 +22,7 @@ class LifeCycleActivity : AppCompatActivity() {
 
     private lateinit var lifeCycleViewModel: LifeCycleViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
@@ -50,7 +51,17 @@ class LifeCycleActivity : AppCompatActivity() {
         lifecycleBinding.changeValueButton.setOnClickListener {
             lifeCycleViewModel.changeDataValue()
             startActivity(Intent(this, MainActivity::class.java))
+            lifeCycleViewModel.changeComparisionData()
         }
+
+        //처음엔 둘다 찍히나 아래 B 는 동일한 값이 오면은 로그가 찍히지 않음.
+        lifeCycleViewModel.comparisionA.observe(this, { data ->
+            Log.d("결과", data)
+        })
+
+        lifeCycleViewModel.comparisionB.observe(this, { data ->
+            Log.d("결과", data)
+        })
 
     }
 
