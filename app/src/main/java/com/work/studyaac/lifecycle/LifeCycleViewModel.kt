@@ -1,5 +1,6 @@
 package com.work.studyaac.lifecycle
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,10 @@ class LifeCycleViewModel : ViewModel() {
     val comparisionB: LiveData<String> = _comparisionB.distinctUntilChanged()
 
 
+    private val _personLiveData = MutableLiveData<Person>()
+    val personLiveData: LiveData<Person> = _personLiveData
+
+
     val dummyData2 = ObservableField<String>()
 
     init {
@@ -32,9 +37,34 @@ class LifeCycleViewModel : ViewModel() {
     }
 
 
+    fun setPersonLiveData(person: Person) {
+        when (person) {
+            is Person.CurrentAge -> {
+                Log.d("결과", "여기탐")
+                _personLiveData.value = Person.Age(30)
+            }
+
+            is Person.Name -> {
+                _personLiveData.value = Person.CheckName(person.name == "박덕성")
+            }
+
+            else -> {
+            }
+        }
+        _personLiveData.value = person
+    }
+
+
     fun changeComparisionData() {
         _comparisionA.value = "same"
         _comparisionB.value = "same"
     }
 
+
+    sealed class Person {
+        object CurrentAge : Person()
+        data class CheckName(val isSame: Boolean) : Person()
+        data class Name(val name: String) : Person()
+        data class Age(val count: Int) : Person()
+    }
 }

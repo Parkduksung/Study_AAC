@@ -52,7 +52,27 @@ class LifeCycleActivity : AppCompatActivity() {
             lifeCycleViewModel.changeDataValue()
             startActivity(Intent(this, MainActivity::class.java))
             lifeCycleViewModel.changeComparisionData()
+            lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
         }
+
+        lifeCycleViewModel.personLiveData.observe(this, { type ->
+            when (type) {
+//                is LifeCycleViewModel.Person.Name -> {
+//                    Log.d("결과", "이름는 비밀.")
+//                }
+
+                is LifeCycleViewModel.Person.Age -> {
+                    Log.d("결과", "나이는 ${type.count}")
+                }
+
+                is LifeCycleViewModel.Person.CheckName->{
+                    Log.d("결과" , "결과는 ${type.isSame}")
+                }
+
+                else -> {}
+            }
+        })
+
 
         //처음엔 둘다 찍히나 아래 B 는 동일한 값이 오면은 로그가 찍히지 않음.
         lifeCycleViewModel.comparisionA.observe(this, { data ->
