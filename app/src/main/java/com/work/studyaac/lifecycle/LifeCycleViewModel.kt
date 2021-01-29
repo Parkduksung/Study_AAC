@@ -2,12 +2,9 @@ package com.work.studyaac.lifecycle
 
 import android.util.Log
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.*
 
-class LifeCycleViewModel : ViewModel() {
+class LifeCycleViewModel : ViewModel(), LifecycleObserver {
 
     private val _dummyData1 = MutableLiveData<String>()
     val dummyData1: LiveData<String> = _dummyData1
@@ -24,12 +21,16 @@ class LifeCycleViewModel : ViewModel() {
     private val _personLiveData = MutableLiveData<Person>()
     val personLiveData: LiveData<Person> = _personLiveData
 
-    private val _toastLiveData = MutableLiveData<String>()
-    val toastLiveData: LiveData<String> = _toastLiveData
+    private val _dialogLiveData = MutableLiveData<String>()
+    val dialogLiveData: LiveData<String> = _dialogLiveData
 
 
     val dummyData2 = ObservableField<String>()
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    private fun initLiveData() {
+        _dialogLiveData.value = null
+    }
 
     init {
         _dummyData1.value = "hello"
@@ -40,8 +41,8 @@ class LifeCycleViewModel : ViewModel() {
         _dummyData1.value = "change"
     }
 
-    fun setMessage(message: String) {
-        _toastLiveData.value = message
+    fun setDialogMessage(message: String) {
+        _dialogLiveData.value = message
     }
 
 

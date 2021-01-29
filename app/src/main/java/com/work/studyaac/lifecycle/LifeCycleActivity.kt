@@ -34,6 +34,7 @@ class LifeCycleActivity : AppCompatActivity() {
         lifecycleBinding.viewModel = lifeCycleViewModel
         setContentView(lifecycleBinding.root)
 
+        lifecycle.addObserver(lifeCycleViewModel)
 
         //어떤 값의 변화가 생명주기까지 알아야 되면서 해야되는거면 LiveData 가 맞지만 단순 값만의 변화면 ObservableField 사용하는게 좀 더 의미상 맞는듯.
         lifeCycleViewModel.dummyData1.observe(this, { value ->
@@ -47,14 +48,16 @@ class LifeCycleActivity : AppCompatActivity() {
             }
         })
 
-        lifeCycleViewModel.toastLiveData.observe(this, {
-            AlertDialog.Builder(this)
-                .setMessage("확인알람!")
-                .setNeutralButton(
-                    "확인"
-                ) { _, _ -> }
-                .create()
-                .show()
+        lifeCycleViewModel.dialogLiveData.observe(this, { message ->
+            if (message != null) {
+                AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .setNeutralButton(
+                        "확인"
+                    ) { _, _ -> }
+                    .create()
+                    .show()
+            }
         })
 
 
@@ -64,7 +67,7 @@ class LifeCycleActivity : AppCompatActivity() {
 //            startActivity(Intent(this, MainActivity::class.java))
             lifeCycleViewModel.changeComparisionData()
             lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
-            lifeCycleViewModel.setMessage("아마또나올꺼야")
+            lifeCycleViewModel.setDialogMessage("아마또나올꺼야")
         }
 
         lifeCycleViewModel.personLiveData.observe(this, { type ->
@@ -133,6 +136,7 @@ class LifeCycleActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        lifecycle.removeObserver(lifeCycleViewModel)
         Log.d(TAG, "onDestroy")
     }
 }
