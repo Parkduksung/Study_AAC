@@ -1,14 +1,13 @@
 package com.work.studyaac.lifecycle
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.lifecycle.ViewModelProvider
-import com.work.studyaac.MainActivity
 import com.work.studyaac.R
 import com.work.studyaac.databinding.ActivityLifecycleBinding
 
@@ -48,11 +47,24 @@ class LifeCycleActivity : AppCompatActivity() {
             }
         })
 
+        lifeCycleViewModel.toastLiveData.observe(this, {
+            AlertDialog.Builder(this)
+                .setMessage("확인알람!")
+                .setNeutralButton(
+                    "확인"
+                ) { _, _ -> }
+                .create()
+                .show()
+        })
+
+
+
         lifecycleBinding.changeValueButton.setOnClickListener {
             lifeCycleViewModel.changeDataValue()
-            startActivity(Intent(this, MainActivity::class.java))
+//            startActivity(Intent(this, MainActivity::class.java))
             lifeCycleViewModel.changeComparisionData()
             lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
+            lifeCycleViewModel.setMessage("아마또나올꺼야")
         }
 
         lifeCycleViewModel.personLiveData.observe(this, { type ->
@@ -65,11 +77,12 @@ class LifeCycleActivity : AppCompatActivity() {
                     Log.d("결과", "나이는 ${type.count}")
                 }
 
-                is LifeCycleViewModel.Person.CheckName->{
-                    Log.d("결과" , "결과는 ${type.isSame}")
+                is LifeCycleViewModel.Person.CheckName -> {
+                    Log.d("결과", "결과는 ${type.isSame}")
                 }
 
-                else -> {}
+                else -> {
+                }
             }
         })
 

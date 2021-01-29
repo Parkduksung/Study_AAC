@@ -24,8 +24,12 @@ class LifeCycleViewModel : ViewModel() {
     private val _personLiveData = MutableLiveData<Person>()
     val personLiveData: LiveData<Person> = _personLiveData
 
+    private val _toastLiveData = MutableLiveData<String>()
+    val toastLiveData: LiveData<String> = _toastLiveData
+
 
     val dummyData2 = ObservableField<String>()
+
 
     init {
         _dummyData1.value = "hello"
@@ -34,6 +38,10 @@ class LifeCycleViewModel : ViewModel() {
 
     fun changeDataValue() {
         _dummyData1.value = "change"
+    }
+
+    fun setMessage(message: String) {
+        _toastLiveData.value = message
     }
 
 
