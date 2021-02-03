@@ -3,8 +3,9 @@ package com.work.studyaac.lifecycle
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
+import com.work.studyaac.data.repository.LifeCycleRepository
 
-class LifeCycleViewModel : ViewModel(), LifecycleObserver {
+class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) : ViewModel(), LifecycleObserver {
 
     private val _dummyData1 = MutableLiveData<String>()
     val dummyData1: LiveData<String> = _dummyData1
@@ -16,7 +17,6 @@ class LifeCycleViewModel : ViewModel(), LifecycleObserver {
 
     private val _comparisionB = MutableLiveData("same")
     val comparisionB: LiveData<String> = _comparisionB.distinctUntilChanged()
-
 
     private val _personLiveData = MutableLiveData<Person>()
     val personLiveData: LiveData<Person> = _personLiveData
