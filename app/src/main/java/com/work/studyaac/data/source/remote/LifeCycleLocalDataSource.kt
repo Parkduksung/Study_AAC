@@ -1,8 +1,8 @@
-package com.work.studyaac.data.repository
+package com.work.studyaac.data.source.remote
 
 import com.work.studyaac.data.model.Person
 
-interface LifeCycleRepository {
+interface LifeCycleLocalDataSource {
     fun createPerson(
         person: Person
     )

@@ -7,8 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.work.studyaac.R
+import com.work.studyaac.data.model.Person
+import com.work.studyaac.data.repository.LifeCycleRepository
 import com.work.studyaac.databinding.ActivityLifecycleBinding
 
 class LifeCycleActivity : AppCompatActivity() {
@@ -28,9 +31,18 @@ class LifeCycleActivity : AppCompatActivity() {
 
         Log.d(TAG, "hashCode : ${hashCode()}")
 
+
         lifecycleBinding = DataBindingUtil.setContentView(this, R.layout.activity_lifecycle)
         lifecycleBinding.lifecycleOwner = this
-        lifeCycleViewModel = ViewModelProvider(this).get(LifeCycleViewModel::class.java)
+        lifeCycleViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return LifeCycleViewModel(object : LifeCycleRepository {
+                    override fun createPerson(person: Person) {
+                        TODO("Not yet implemented")
+                    }
+                }) as T
+            }
+        }).get(LifeCycleViewModel::class.java)
         lifecycleBinding.viewModel = lifeCycleViewModel
         setContentView(lifecycleBinding.root)
 
@@ -63,11 +75,12 @@ class LifeCycleActivity : AppCompatActivity() {
 
 
         lifecycleBinding.changeValueButton.setOnClickListener {
-            lifeCycleViewModel.changeDataValue()
+//            lifeCycleViewModel.changeDataValue()
 //            startActivity(Intent(this, MainActivity::class.java))
-            lifeCycleViewModel.changeComparisionData()
-            lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
-            lifeCycleViewModel.setDialogMessage("아마또나올꺼야")
+//            lifeCycleViewModel.changeComparisionData()
+//            lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
+//            lifeCycleViewModel.setDialogMessage("아마또나올꺼야")
+            lifeCycleViewModel.check()
         }
 
         lifeCycleViewModel.personLiveData.observe(this, { type ->
