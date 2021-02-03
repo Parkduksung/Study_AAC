@@ -72,7 +72,7 @@ class LifeCycleActivity : AppCompatActivity() {
 //            lifeCycleViewModel.changeComparisionData()
 //            lifeCycleViewModel.setPersonLiveData(LifeCycleViewModel.Person.Name("박덕"))
 //            lifeCycleViewModel.setDialogMessage("아마또나올꺼야")
-            lifeCycleViewModel.check()
+            lifeCycleViewModel.createPerson()
         }
 
         lifeCycleViewModel.personLiveData.observe(this, { type ->

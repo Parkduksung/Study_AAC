@@ -12,7 +12,6 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
     private val _dummyData1 = MutableLiveData<String>()
     val dummyData1: LiveData<String> = _dummyData1
 
-
     private val _comparisionA = MutableLiveData("same")
     val comparisionA: LiveData<String> = _comparisionA
 
@@ -26,6 +25,8 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
     private val _dialogLiveData = MutableLiveData<String>()
     val dialogLiveData: LiveData<String> = _dialogLiveData
 
+    val personIdLiveData = MutableLiveData<String>()
+    val personAgeLiveData = MutableLiveData<String>()
 
     val dummyData2 = ObservableField<String>()
 
@@ -36,6 +37,15 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
 
     init {
         _dummyData1.value = "hello"
+    }
+
+    fun createPerson() {
+        lifeCycleRepository.createPerson(
+            Person(
+                personIdLiveData.value ?: "",
+                personAgeLiveData.value?.toInt() ?: -1
+            )
+        )
     }
 
     fun check() {
