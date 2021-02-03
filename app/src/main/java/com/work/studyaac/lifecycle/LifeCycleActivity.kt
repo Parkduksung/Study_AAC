@@ -13,6 +13,7 @@ import com.work.studyaac.R
 import com.work.studyaac.data.model.Person
 import com.work.studyaac.data.repository.LifeCycleRepository
 import com.work.studyaac.databinding.ActivityLifecycleBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LifeCycleActivity : AppCompatActivity() {
 
@@ -22,7 +23,7 @@ class LifeCycleActivity : AppCompatActivity() {
 
     private lateinit var lifecycleBinding: ActivityLifecycleBinding
 
-    private lateinit var lifeCycleViewModel: LifeCycleViewModel
+    private  val lifeCycleViewModel: LifeCycleViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,15 +35,6 @@ class LifeCycleActivity : AppCompatActivity() {
 
         lifecycleBinding = DataBindingUtil.setContentView(this, R.layout.activity_lifecycle)
         lifecycleBinding.lifecycleOwner = this
-        lifeCycleViewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return LifeCycleViewModel(object : LifeCycleRepository {
-                    override fun createPerson(person: Person) {
-                        TODO("Not yet implemented")
-                    }
-                }) as T
-            }
-        }).get(LifeCycleViewModel::class.java)
         lifecycleBinding.viewModel = lifeCycleViewModel
         setContentView(lifecycleBinding.root)
 

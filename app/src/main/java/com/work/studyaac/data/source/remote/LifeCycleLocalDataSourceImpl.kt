@@ -1,11 +1,11 @@
 package com.work.studyaac.data.source.remote
 
-import android.widget.Toast
-import com.work.studyaac.App
+import android.util.Log
 import com.work.studyaac.data.model.Person
 
 class LifeCycleLocalDataSourceImpl : LifeCycleLocalDataSource {
     override fun createPerson(person: Person) {
-        Toast.makeText(App.instance.applicationContext, "${person.name} ${person.age}", Toast.LENGTH_LONG).show()
+        Log.d("결과", person.name)
+        Log.d("결과", "여기찍힘")
     }
 }
