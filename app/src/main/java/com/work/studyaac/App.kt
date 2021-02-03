@@ -4,8 +4,12 @@ import android.app.Application
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.work.studyaac.di.dataSourceModule
+import com.work.studyaac.di.repositoryModule
 import com.work.studyaac.network.api.ApiService
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -49,6 +53,17 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        startKoin {
+            androidContext(this@App)
+            modules(
+                listOf(
+                    dataSourceModule,
+                    repositoryModule
+                )
+            )
+        }
+
     }
 
     companion object {
