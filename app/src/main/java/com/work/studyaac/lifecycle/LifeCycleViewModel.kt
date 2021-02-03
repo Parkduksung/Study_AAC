@@ -26,9 +26,12 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
     val dialogLiveData: LiveData<String> = _dialogLiveData
 
     val personIdLiveData = MutableLiveData<String>()
-    val personAgeLiveData = MutableLiveData<String>()
+    val personAgeLiveData = MutableLiveData<Int>()
 
     val dummyData2 = ObservableField<String>()
+
+
+    val personInfoLiveData = MutableLiveData<com.work.studyaac.data.model.Person>()
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private fun initLiveData() {
@@ -41,18 +44,15 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
 
     fun createPerson() {
         lifeCycleRepository.createPerson(
-            Person(
-                personIdLiveData.value ?: "",
-                personAgeLiveData.value?.toInt() ?: -1
-            )
+            personInfoLiveData.value!!
         )
     }
 
-    fun check() {
-        lifeCycleRepository.createPerson(
-            Person("박덕성", 30)
-        )
-    }
+//    fun check() {
+//        lifeCycleRepository.createPerson(
+//            Person("박덕성", 30)
+//        )
+//    }
 
     fun changeDataValue() {
         _dummyData1.value = "change"
