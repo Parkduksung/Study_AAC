@@ -7,11 +7,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import com.work.studyaac.R
-import com.work.studyaac.data.model.Person
-import com.work.studyaac.data.repository.LifeCycleRepository
 import com.work.studyaac.databinding.ActivityLifecycleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,8 +20,17 @@ class LifeCycleActivity : AppCompatActivity() {
 
     private lateinit var lifecycleBinding: ActivityLifecycleBinding
 
-    private  val lifeCycleViewModel: LifeCycleViewModel by viewModel()
+    private val lifeCycleViewModel: LifeCycleViewModel by viewModel()
 
+
+    private val observer1 = Observer<String> {
+        lifeCycleViewModel.changePersonModelLiveData()
+    }
+
+    private fun observationPersonInfo(){
+        lifeCycleViewModel.personAgeLiveData.observe(this,observer1)
+        lifeCycleViewModel.personNameLiveData.observe(this,observer1)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +51,7 @@ class LifeCycleActivity : AppCompatActivity() {
             Log.d(TAG, "value : $value")
         })
 
+        observationPersonInfo()
 
         lifeCycleViewModel.dummyData2.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {
@@ -64,6 +71,26 @@ class LifeCycleActivity : AppCompatActivity() {
             }
         })
 
+        observationPersonInfo()
+//
+//        lifeCycleViewModel.personAgeLiveData.observe(this, {
+//            Log.d("결과", it)
+//            lifeCycleViewModel.personModelLiveData()
+//        })
+//
+//
+//        lifeCycleViewModel.personNameLiveData.observe(this,{
+//            Log.d("결과", it)
+//            lifeCycleViewModel.personModelLiveData()
+//        })
+
+//        lifeCycleViewModel.personModelLiveData()
+
+
+        lifeCycleViewModel.personModelLiveData.observe(this, { person ->
+            Log.d("결과", "personName : ${person.name}")
+            Log.d("결과", "personAge : ${person.age}")
+        })
 
 
         lifecycleBinding.changeValueButton.setOnClickListener {

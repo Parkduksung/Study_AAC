@@ -35,11 +35,12 @@
             app:layout_constraintVertical_bias=".1" />
 
         <EditText
+            android:id="@+id/input_name_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="input id"
-            android:text="@={viewModel.personInfoLiveData.name}"
+            android:text="@={viewModel.personNameLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,12 +49,13 @@
             app:layout_constraintWidth_percent=".8" />
 
         <EditText
+            android:id="@+id/input_age_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="input pass"
             android:inputType="number"
-            android:text="@={viewModel.personInfoLiveData.age}"
+            android:text="@={viewModel.personAgeLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
