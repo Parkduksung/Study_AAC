@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
-import androidx.lifecycle.Observer
+import com.work.studyaac.BR
 import com.work.studyaac.R
 import com.work.studyaac.databinding.ActivityLifecycleBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,9 +33,14 @@ class LifeCycleActivity : AppCompatActivity() {
         lifecycleBinding = DataBindingUtil.setContentView(this, R.layout.activity_lifecycle)
         lifecycleBinding.lifecycleOwner = this
         lifecycleBinding.viewModel = lifeCycleViewModel
+
         setContentView(lifecycleBinding.root)
 
         lifecycle.addObserver(lifeCycleViewModel)
+
+        lifecycleBinding.run {
+            setVariable(BR.viewModel, lifeCycleViewModel)
+        }
 
         //어떤 값의 변화가 생명주기까지 알아야 되면서 해야되는거면 LiveData 가 맞지만 단순 값만의 변화면 ObservableField 사용하는게 좀 더 의미상 맞는듯.
         lifeCycleViewModel.dummyData1.observe(this, { value ->
@@ -60,9 +65,12 @@ class LifeCycleActivity : AppCompatActivity() {
             }
         })
 
-        lifeCycleViewModel.personModelLiveData.observe(this, { person ->
-            Log.d("결과", "personName : ${person.name}")
-            Log.d("결과", "personAge : ${person.age}")
+        lifeCycleViewModel.personInfo.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback(){
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                Log.d("결과", lifeCycleViewModel.personInfo.personName)
+                Log.d("결과", lifeCycleViewModel.personInfo.personAge)
+
+            }
         })
 
 

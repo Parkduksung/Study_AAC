@@ -1,9 +1,11 @@
 package com.work.studyaac.lifecycle
 
 import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
-import com.work.studyaac.data.model.Person
+import com.work.studyaac.BR
 import com.work.studyaac.data.repository.LifeCycleRepository
 
 class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) : ViewModel(),
@@ -25,17 +27,18 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
     private val _dialogLiveData = MutableLiveData<String>()
     val dialogLiveData: LiveData<String> = _dialogLiveData
 
-    val personNameLiveData = MutableLiveData<String>()
-    val personAgeLiveData = MutableLiveData<String>()
 
     val dummyData2 = ObservableField<String>()
 
     val personInfoLiveData = MutableLiveData<com.work.studyaac.data.model.Person>()
 
 
-    private val _personModelLiveData = MutableLiveData<com.work.studyaac.data.model.Person>()
-    val personModelLiveData: LiveData<com.work.studyaac.data.model.Person> = _personModelLiveData
-
+    val personInfo by lazy {
+        PersonInfo().apply {
+            personName = ""
+            personAge = ""
+        }
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private fun initLiveData() {
@@ -44,12 +47,6 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
 
     init {
         _dummyData1.value = "hello"
-
-        _personModelLiveData.value =
-            com.work.studyaac.data.model.Person(
-                personNameLiveData.value.orEmpty(),
-                personAgeLiveData.value.orEmpty()
-            )
     }
 
     fun createPerson() {
@@ -57,22 +54,6 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
             personInfoLiveData.value!!
         )
     }
-
-    private fun changePersonModelLiveData() {
-        _personModelLiveData.value = _personModelLiveData.value?.copy(
-            name = personNameLiveData.value.orEmpty(),
-            age = personAgeLiveData.value.orEmpty()
-        )
-    }
-
-    private val observerPersonInfo = Observer<String> { changePersonModelLiveData() }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun renewPersonModel() {
-        personNameLiveData.observeForever(observerPersonInfo)
-        personAgeLiveData.observeForever(observerPersonInfo)
-    }
-
 
     fun changeDataValue() {
         _dummyData1.value = "change"
@@ -113,4 +94,22 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
         data class Name(val name: String) : Person()
         data class Age(val count: Int) : Person()
     }
+}
+
+class PersonInfo : BaseObservable() {
+
+    @get:Bindable
+    var personName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.personName)
+        }
+
+    @get:Bindable
+    var personAge: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.personAge)
+        }
+
 }
