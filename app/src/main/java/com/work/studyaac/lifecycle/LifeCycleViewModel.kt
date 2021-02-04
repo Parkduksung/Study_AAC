@@ -46,7 +46,10 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
         _dummyData1.value = "hello"
 
         _personModelLiveData.value =
-            com.work.studyaac.data.model.Person(personNameLiveData.value.orEmpty(), personAgeLiveData.value.orEmpty())
+            com.work.studyaac.data.model.Person(
+                personNameLiveData.value.orEmpty(),
+                personAgeLiveData.value.orEmpty()
+            )
     }
 
     fun createPerson() {
@@ -55,11 +58,19 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
         )
     }
 
-    fun changePersonModelLiveData() {
+    private fun changePersonModelLiveData() {
         _personModelLiveData.value = _personModelLiveData.value?.copy(
             name = personNameLiveData.value.orEmpty(),
             age = personAgeLiveData.value.orEmpty()
         )
+    }
+
+    private val observerPersonInfo = Observer<String> { changePersonModelLiveData() }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun renewPersonModel() {
+        personNameLiveData.observeForever(observerPersonInfo)
+        personAgeLiveData.observeForever(observerPersonInfo)
     }
 
 

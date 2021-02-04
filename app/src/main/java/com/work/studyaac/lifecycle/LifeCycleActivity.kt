@@ -23,15 +23,6 @@ class LifeCycleActivity : AppCompatActivity() {
     private val lifeCycleViewModel: LifeCycleViewModel by viewModel()
 
 
-    private val observer1 = Observer<String> {
-        lifeCycleViewModel.changePersonModelLiveData()
-    }
-
-    private fun observationPersonInfo(){
-        lifeCycleViewModel.personAgeLiveData.observe(this,observer1)
-        lifeCycleViewModel.personNameLiveData.observe(this,observer1)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
@@ -51,8 +42,6 @@ class LifeCycleActivity : AppCompatActivity() {
             Log.d(TAG, "value : $value")
         })
 
-        observationPersonInfo()
-
         lifeCycleViewModel.dummyData2.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -70,22 +59,6 @@ class LifeCycleActivity : AppCompatActivity() {
                     .show()
             }
         })
-
-        observationPersonInfo()
-//
-//        lifeCycleViewModel.personAgeLiveData.observe(this, {
-//            Log.d("결과", it)
-//            lifeCycleViewModel.personModelLiveData()
-//        })
-//
-//
-//        lifeCycleViewModel.personNameLiveData.observe(this,{
-//            Log.d("결과", it)
-//            lifeCycleViewModel.personModelLiveData()
-//        })
-
-//        lifeCycleViewModel.personModelLiveData()
-
 
         lifeCycleViewModel.personModelLiveData.observe(this, { person ->
             Log.d("결과", "personName : ${person.name}")
