@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.work.studyaac.di.dataSourceModule
 import com.work.studyaac.di.repositoryModule
+import com.work.studyaac.di.roomModule
 import com.work.studyaac.di.viewModelModule
 import com.work.studyaac.network.api.ApiService
 import okhttp3.OkHttpClient
@@ -61,7 +62,8 @@ class App : Application() {
                 listOf(
                     viewModelModule,
                     dataSourceModule,
-                    repositoryModule
+                    repositoryModule,
+                    roomModule
                 )
             )
         }

@@ -5,5 +5,5 @@ import com.work.studyaac.data.source.remote.LifeCycleLocalDataSourceImpl
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    single<LifeCycleLocalDataSource> { LifeCycleLocalDataSourceImpl() }
+    single<LifeCycleLocalDataSource> { LifeCycleLocalDataSourceImpl(get()) }
 }
