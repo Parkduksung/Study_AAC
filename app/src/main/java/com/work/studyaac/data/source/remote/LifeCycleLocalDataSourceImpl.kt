@@ -2,9 +2,18 @@ package com.work.studyaac.data.source.remote
 
 import android.util.Log
 import com.work.studyaac.data.model.Person
+import com.work.studyaac.network.room.database.PersonDatabase
+import com.work.studyaac.network.room.entity.PersonEntity
 
-class LifeCycleLocalDataSourceImpl : LifeCycleLocalDataSource {
+class LifeCycleLocalDataSourceImpl(private val personDatabase: PersonDatabase) :
+    LifeCycleLocalDataSource {
     override fun createPerson(person: Person) {
+        personDatabase.personDao().registerPerson(
+            PersonEntity(
+                personName = person.personName,
+                personAge = person.personAge
+            )
+        )
         Log.d("결과", "여기찍힘")
     }
 }
