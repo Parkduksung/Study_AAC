@@ -29,4 +29,8 @@ class LifeCycleActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        lifecycle.removeObserver(lifeCycleViewModel)
+        super.onDestroy()
+    }
 }
