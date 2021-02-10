@@ -3,6 +3,7 @@ package com.work.studyaac.network.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.work.studyaac.data.model.Person
 
 @Entity(tableName = "Person")
 data class PersonEntity(
@@ -12,4 +13,10 @@ data class PersonEntity(
     val personName: String,
     @ColumnInfo(name = "personAge")
     val personAge: String
-)
+) {
+    fun toPerson(): Person =
+        Person().apply {
+            this.personAge = personAge
+            this.personName = personName
+        }
+}
