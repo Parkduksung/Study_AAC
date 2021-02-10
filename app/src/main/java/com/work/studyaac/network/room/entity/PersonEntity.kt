@@ -16,7 +16,7 @@ data class PersonEntity(
 ) {
     fun toPerson(): Person =
         Person().apply {
-            this.personAge = personAge
-            this.personName = personName
+            personName = this@PersonEntity.personName
+            personAge = this@PersonEntity.personAge
         }
 }

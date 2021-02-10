@@ -20,9 +20,10 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
 
 
     fun getAllList() {
-        lifeCycleRepository.getAllList {
-            it.forEach {
-                Log.d("결과", "name : ${it.personName} age : ${it.personAge}")
+        lifeCycleRepository.getAllList {getAllPersonEntity ->
+            val getAllList = getAllPersonEntity.map { it.toPerson() }
+            getAllList.forEach {
+                Log.d("결과", "name : ${it.personName} , age : ${it.personAge}")
             }
         }
     }
