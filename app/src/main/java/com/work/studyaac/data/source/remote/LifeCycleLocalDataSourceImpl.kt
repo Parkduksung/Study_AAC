@@ -8,12 +8,14 @@ import com.work.studyaac.network.room.entity.PersonEntity
 class LifeCycleLocalDataSourceImpl(private val personDatabase: PersonDatabase) :
     LifeCycleLocalDataSource {
     override fun createPerson(person: Person) {
-        personDatabase.personDao().registerPerson(
-            PersonEntity(
-                personName = person.personName,
-                personAge = person.personAge
+        Thread {
+            personDatabase.personDao().registerPerson(
+                PersonEntity(
+                    personName = person.personName,
+                    personAge = person.personAge
+                )
             )
-        )
+        }.start()
         Log.d("결과", "여기찍힘")
     }
 }
