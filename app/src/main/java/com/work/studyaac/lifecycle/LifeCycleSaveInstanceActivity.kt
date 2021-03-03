@@ -1,9 +1,10 @@
 package com.work.studyaac.lifecycle
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import com.work.studyaac.R
 import com.work.studyaac.databinding.ActivityLifecycleSaveInstanceBinding
 
@@ -11,7 +12,7 @@ class LifeCycleSaveInstanceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLifecycleSaveInstanceBinding
 
-    private lateinit var viewModel: LifeCycleSaveInstanceViewModel
+    private val viewModel: LifeCycleSaveInstanceViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,13 @@ class LifeCycleSaveInstanceActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(LifeCycleSaveInstanceViewModel::class.java)
 
+        viewModel.countLiveData.observe(this, Observer {
+            binding.text.text = it.toString()
+        })
+
+        binding.button.setOnClickListener {
+            viewModel.incCounter()
+        }
     }
 }
