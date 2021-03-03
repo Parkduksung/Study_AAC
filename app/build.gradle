@@ -72,6 +72,14 @@ dependencies {
     implementation 'org.koin:koin-androidx-ext:2.0.1'
 }
 
+//lifeCycle - SaveInstance
+dependencies {
+    // app/build.gradle
+    implementation 'androidx.activity:activity:1.1.0'
+    implementation 'androidx.fragment:fragment:1.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0'
+}
+
 
 //room
 dependencies {
