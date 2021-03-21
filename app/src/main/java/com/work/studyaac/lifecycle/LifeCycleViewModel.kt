@@ -20,8 +20,11 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
     fun timingCheckExam() {
         viewModelScope.launch {
             withContext(Dispatchers.Main){
-                _examTimingLiveData.postValue("postSetValue")
-                _examTimingLiveData.value = "setValue"
+                _examTimingLiveData.postValue("postSetValue1")
+                _examTimingLiveData.postValue("postSetValue2")
+                _examTimingLiveData.value = "setValue1"
+                _examTimingLiveData.postValue("postSetValue3")
+                _examTimingLiveData.value = "setValue2"
             }
         }
 
