@@ -1,6 +1,7 @@
 package com.work.studyaac.lifecycle
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.work.studyaac.BR
@@ -26,6 +27,11 @@ class LifeCycleActivity : AppCompatActivity() {
         setContentView(lifecycleBinding.root)
 
         lifecycle.addObserver(lifeCycleViewModel)
+
+
+        lifeCycleViewModel.examTimingLiveData.observe(this, {
+            Log.d("결과", it)
+        })
 
     }
 

@@ -1,15 +1,31 @@
 package com.work.studyaac.lifecycle
 
+import android.os.AsyncTask
 import android.util.Log
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.work.studyaac.data.model.Person
 import com.work.studyaac.data.repository.LifeCycleRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) : ViewModel(),
     LifecycleObserver {
+
+    private val _examTimingLiveData = MutableLiveData<String>()
+    val examTimingLiveData: LiveData<String> = _examTimingLiveData.distinctUntilChanged()
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun timingCheckExam() {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                _examTimingLiveData.postValue("postSetValue")
+                _examTimingLiveData.value = "setValue"
+            }
+        }
+
+    }
 
 
     fun renewPerson() {
@@ -17,6 +33,7 @@ class LifeCycleViewModel(private val lifeCycleRepository: LifeCycleRepository) :
             lifeCycleRepository.createPerson(personInfo)
         }
     }
+
 
     fun getAllList() {
         lifeCycleRepository.getAllList { getAllPersonEntity ->
