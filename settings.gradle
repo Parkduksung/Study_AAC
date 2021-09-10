@@ -1,2 +1,3 @@
 rootProject.name='StudyAAC'
 include ':app'
+include ':paging'
